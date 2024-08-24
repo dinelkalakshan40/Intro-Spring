@@ -1,5 +1,6 @@
 package lk.ijse;
 
+import lk.ijse.app.Transaction;
 import lk.ijse.config.Config;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -9,11 +10,14 @@ public class AppInit {
         var ctx = new AnnotationConfigApplicationContext();
         ctx.register(Config.class);
         ctx.refresh();
-
        /* var myObj = ctx.getBean("myObj");
         System.out.println(myObj);
         ConfigurableListableBeanFactory beanFactory = ctx.getBeanFactory();
         System.out.println("Is bean singleton "+ beanFactory.isSingleton("myObj"));
         ctx.registerShutdownHook();*/
+        Transaction transaction = (Transaction) ctx.getBean("transaction");
+        transaction.startTransaction();
+        transaction.endTransaction();
+        ctx.registerShutdownHook();
     }
 }
